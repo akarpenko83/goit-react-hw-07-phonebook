@@ -1,17 +1,14 @@
 import React from 'react';
 import toast from 'react-hot-toast';
 import { useState } from 'react';
-import { nanoid } from 'nanoid';
 import {
   Form,
   FormGroup,
   Button,
 } from './ContactForm.styled.jsx';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  addContact,
-  getContacts,
-} from 'redux/contactSlice.js';
+import { getContacts } from 'redux/contactSlice.js';
+import { addContact } from 'redux/operations.js';
 
 export default function ContactForm(props) {
   const [name, setName] = useState('');
@@ -41,9 +38,8 @@ export default function ContactForm(props) {
     evt.preventDefault();
     const form = evt.currentTarget;
     const contact = {
-      id: nanoid(),
       name: form.elements.name.value,
-      number: Number(form.elements.number.value),
+      number: form.elements.number.value,
     };
     onSubmit(contact);
     formReset();

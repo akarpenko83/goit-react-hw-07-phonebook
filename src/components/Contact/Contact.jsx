@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { DeleteButton } from './Contact.styled';
 import { useDispatch } from 'react-redux';
-import { removeContact } from 'redux/contactSlice';
+import { removeContact } from 'redux/operations';
 import { toast } from 'react-hot-toast';
 
 export default function Contact({
@@ -12,7 +12,6 @@ export default function Contact({
   const dispatch = useDispatch();
 
   const deleteContact = () => {
-    console.log(contactId);
     dispatch(removeContact(contactId));
     toast.success(`Successfully deleted from contact list`);
   };
@@ -27,6 +26,6 @@ export default function Contact({
 }
 Contact.propTypes = {
   name: PropTypes.string.isRequired,
-  number: PropTypes.number.isRequired,
+  number: PropTypes.any.isRequired,
   contactId: PropTypes.string.isRequired,
 };
