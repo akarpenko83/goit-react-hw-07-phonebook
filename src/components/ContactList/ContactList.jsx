@@ -5,12 +5,12 @@ import {
 } from './ContactList.styled.jsx';
 
 import { useSelector } from 'react-redux';
-import { getFilterValue } from 'redux/filterSlice';
-import { getContacts } from 'redux/contactSlice';
+import { selectFilterValue } from 'redux/filterSlice';
+import { selectContacts } from 'redux/contactSlice';
 
 export default function ContactList() {
-  const filterValue = useSelector(getFilterValue);
-  const contacts = useSelector(getContacts);
+  const filterValue = useSelector(selectFilterValue);
+  const contacts = useSelector(selectContacts);
 
   const filteredContacts = () => {
     return contacts.filter(contact =>

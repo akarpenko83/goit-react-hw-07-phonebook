@@ -7,17 +7,17 @@ import { Toaster } from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
-  getContacts,
-  getError,
-  getIsloading,
+  selectContacts,
+  selectError,
+  selectIsloading,
 } from 'redux/contactSlice';
 import { fetchContacts } from 'redux/operations';
 
 const App = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(getContacts);
-  const isLoading = useSelector(getIsloading);
-  const error = useSelector(getError);
+  const contacts = useSelector(selectContacts);
+  const isLoading = useSelector(selectIsloading);
+  const error = useSelector(selectError);
 
   useEffect(() => {
     dispatch(fetchContacts());

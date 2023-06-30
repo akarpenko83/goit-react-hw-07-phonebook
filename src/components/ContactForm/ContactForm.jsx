@@ -7,13 +7,13 @@ import {
   Button,
 } from './ContactForm.styled.jsx';
 import { useDispatch, useSelector } from 'react-redux';
-import { getContacts } from 'redux/contactSlice.js';
+import { selectContacts } from 'redux/contactSlice.js';
 import { addContact } from 'redux/operations.js';
 
 export default function ContactForm(props) {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
-  const contacts = useSelector(getContacts);
+  const contacts = useSelector(selectContacts);
   const dispatch = useDispatch();
   const formReset = () => {
     setName('');
