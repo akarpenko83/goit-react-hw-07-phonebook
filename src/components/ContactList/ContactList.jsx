@@ -19,10 +19,10 @@ export default function ContactList() {
         .includes(filterValue.toLowerCase()),
     );
   };
-
+  const renderedContacts = filteredContacts();
   return (
     <ContactListContainer>
-      {filteredContacts().map(({ name, number, id }) => (
+      {renderedContacts.map(({ name, number, id }) => (
         <ContactItem key={id}>
           <Contact
             name={name}
