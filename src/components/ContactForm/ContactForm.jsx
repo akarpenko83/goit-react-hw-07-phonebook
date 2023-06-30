@@ -28,10 +28,16 @@ export default function ContactForm(props) {
 
       return;
     }
-    toast.success(
-      `${contact.name} added to your contact list`,
-    );
-    dispatch(addContact(contact));
+
+    dispatch(addContact(contact))
+      .then(
+        toast.success(
+          `${contact.name} added to your contact list`,
+        ),
+      )
+      .catch(
+        `${contact.name} unable to add contact to the list`,
+      );
   };
 
   const handleSubmit = evt => {

@@ -12,8 +12,13 @@ export default function Contact({
   const dispatch = useDispatch();
 
   const deleteContact = () => {
-    dispatch(removeContact(contactId));
-    toast.success(`Successfully deleted from contact list`);
+    dispatch(removeContact(contactId))
+      .then(
+        toast.success(
+          `Successfully deleted from contact list`,
+        ),
+      )
+      .catch(error => console.log(error.message));
   };
   return (
     <>
