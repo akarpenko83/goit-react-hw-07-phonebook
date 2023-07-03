@@ -1,27 +1,19 @@
-import { useEffect } from 'react';
 import { Container, SectionName } from './App.styled';
 import ContactForm from './ContactForm/ContactForm';
 import ContactList from './ContactList/ContactList';
 import Filter from './Filter/Filter';
 import { Toaster } from 'react-hot-toast';
-import { useDispatch, useSelector } from 'react-redux';
+// import { useDispatch, useSelector } from 'react-redux';
 
-import {
-  selectContacts,
-  selectError,
-  selectIsloading,
-} from 'redux/contactSlice';
-import { fetchContacts } from 'redux/operations';
+import { useGetContactsQuery } from 'redux/contactSlice';
+// import { fetchContacts } from 'redux/operations';
 
 const App = () => {
-  const dispatch = useDispatch();
-  const contacts = useSelector(selectContacts);
-  const isLoading = useSelector(selectIsloading);
-  const error = useSelector(selectError);
-
-  useEffect(() => {
-    dispatch(fetchContacts());
-  }, [dispatch]);
+  const {
+    data: contacts,
+    error,
+    isLoading,
+  } = useGetContactsQuery();
 
   return (
     <Container>

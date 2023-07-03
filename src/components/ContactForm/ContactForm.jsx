@@ -6,21 +6,24 @@ import {
   FormGroup,
   Button,
 } from './ContactForm.styled.jsx';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectContacts } from 'redux/contactSlice.js';
-import { addContact } from 'redux/operations.js';
+import {
+  useAddContactMutation,
+  useGetContactsQuery,
+} from 'redux/contactSlice.js';
 
 export default function ContactForm(props) {
+  const { data: contacts } = useGetContactsQuery();
+  const [addContact] = useAddContactMutation();
+
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
-  const contacts = useSelector(selectContacts);
-  const dispatch = useDispatch();
+
   const formReset = () => {
     setName('');
     setNumber('');
   };
 
-  const onSubmit = contact => {
+  const onSubmit = async contact => {
     if (contacts.find(arr => arr.name === contact.name)) {
       toast.error(
         `${contact.name} is already in the contact list`,
@@ -29,15 +32,16 @@ export default function ContactForm(props) {
       return;
     }
 
-    dispatch(addContact(contact))
-      .then(
-        toast.success(
-          `${contact.name} added to your contact list`,
-        ),
-      )
-      .catch(
+    try {
+      await addContact(contact);
+      toast.success(
+        `${contact.name} added to your contact list`,
+      );
+    } catch (error) {
+      toast.error(
         `${contact.name} unable to add contact to the list`,
       );
+    }
   };
 
   const handleSubmit = evt => {

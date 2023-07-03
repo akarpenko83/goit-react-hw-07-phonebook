@@ -6,11 +6,13 @@ import {
 
 import { useSelector } from 'react-redux';
 import { selectFilterValue } from 'redux/filterSlice';
-import { selectContacts } from 'redux/contactSlice';
+import { useGetContactsQuery } from 'redux/contactSlice';
 
 export default function ContactList() {
+  const { data: contacts } = useGetContactsQuery();
+
   const filterValue = useSelector(selectFilterValue);
-  const contacts = useSelector(selectContacts);
+  // const contacts = useSelector(selectContacts);
 
   const filteredContacts = () => {
     return contacts.filter(contact =>

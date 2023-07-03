@@ -1,29 +1,35 @@
 import PropTypes from 'prop-types';
 import { DeleteButton } from './Contact.styled';
-import { useDispatch } from 'react-redux';
-import { removeContact } from 'redux/operations';
+
 import { toast } from 'react-hot-toast';
+import { useRemoveContactMutation } from 'redux/contactSlice';
 
 export default function Contact({
   name,
   number,
   contactId,
 }) {
-  const dispatch = useDispatch();
+  const [removeContact, result] =
+    useRemoveContactMutation();
 
-  const deleteContact = () => {
-    dispatch(removeContact(contactId))
-      .then(
-        toast.success(
-          `Successfully deleted from contact list`,
-        ),
-      )
-      .catch(error => console.log(error.message));
+  const deleteContact = async contactId => {
+    try {
+      await removeContact(contactId);
+      toast.success(
+        `Successfully deleted from contact list`,
+      );
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
   return (
     <>
       {name}: {number}
-      <DeleteButton onClick={deleteContact} type="button">
+      <DeleteButton
+        onClick={() => deleteContact(contactId)}
+        type="button"
+        disabled={result.isLoading}
+      >
         Delete
       </DeleteButton>
     </>

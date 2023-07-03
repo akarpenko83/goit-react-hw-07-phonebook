@@ -1,67 +1,40 @@
-import { createSlice } from '@reduxjs/toolkit';
 import {
-  addContact,
-  fetchContacts,
-  removeContact,
-} from './operations';
+  createApi,
+  fetchBaseQuery,
+} from '@reduxjs/toolkit/query/react';
 
-export const contactSlice = createSlice({
-  name: 'contacts',
-  initialState: {
-    value: [],
-    isLoading: false,
-    error: null,
-  },
-
-  extraReducers: {
-    [fetchContacts.pending](state, action) {
-      state.isLoading = true;
-    },
-    [fetchContacts.fulfilled](state, action) {
-      state.isLoading = false;
-      state.error = null;
-
-      state.value = action.payload;
-    },
-    [fetchContacts.rejected](state, action) {
-      state.isLoading = false;
-      state.error = action.payload;
-    },
-    [addContact.pending](state) {
-      state.isLoading = true;
-    },
-    [addContact.fulfilled](state, action) {
-      state.isLoading = false;
-      state.error = null;
-      state.value.push(action.payload);
-    },
-    [addContact.rejected](state, action) {
-      state.isLoading = false;
-      state.error = action.payload;
-    },
-    [removeContact.pending](state) {
-      state.isLoading = true;
-    },
-    [removeContact.fulfilled](state, action) {
-      state.isLoading = false;
-      state.error = null;
-      const index = state.value.findIndex(
-        value => value.id === action.payload.id,
-      );
-      state.value.splice(index, 1);
-    },
-    [removeContact.rejected](state, action) {
-      state.isLoading = false;
-      state.error = action.payload;
-    },
-  },
+export const contactsApi = createApi({
+  reducerPath: 'contacts',
+  baseQuery: fetchBaseQuery({
+    baseUrl: 'https://649d34f39bac4a8e669d5ebd.mockapi.io',
+  }),
+  tagTypes: ['contact'],
+  endpoints: builder => ({
+    getContacts: builder.query({
+      query: name => `/contacts`,
+      providesTags: ['contact'],
+    }),
+    addContact: builder.mutation({
+      // note: an optional `queryFn` may be used in place of `query`
+      query: contact => ({
+        url: '/contacts',
+        method: 'POST',
+        body: contact,
+      }),
+      invalidatesTags: ['contact'],
+    }),
+    removeContact: builder.mutation({
+      // note: an optional `queryFn` may be used in place of `query`
+      query: contactId => ({
+        url: `/contacts/${contactId}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['contact'],
+    }),
+  }),
 });
-
-// Редюсер слайса
-export const contactsReducer = contactSlice.reducer;
-
-// Селекторы
-export const selectContacts = state => state.contacts.value;
-export const selectIsloading = state =>
-  state.contacts.isLoading;
-export const selectError = state => state.contacts.error;
+export const {
+  useGetContactsQuery,
+  useAddContactMutation,
+  useRemoveContactMutation,
+} = contactsApi;
