@@ -15,7 +15,6 @@ export const contactsApi = createApi({
       providesTags: ['contact'],
     }),
     addContact: builder.mutation({
-      // note: an optional `queryFn` may be used in place of `query`
       query: contact => ({
         url: '/contacts',
         method: 'POST',
@@ -24,7 +23,6 @@ export const contactsApi = createApi({
       invalidatesTags: ['contact'],
     }),
     removeContact: builder.mutation({
-      // note: an optional `queryFn` may be used in place of `query`
       query: contactId => ({
         url: `/contacts/${contactId}`,
         method: 'DELETE',

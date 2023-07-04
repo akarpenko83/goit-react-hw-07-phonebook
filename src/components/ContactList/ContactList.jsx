@@ -12,7 +12,6 @@ export default function ContactList() {
   const { data: contacts } = useGetContactsQuery();
 
   const filterValue = useSelector(selectFilterValue);
-  // const contacts = useSelector(selectContacts);
 
   const filteredContacts = () => {
     return contacts.filter(contact =>
